@@ -141,6 +141,64 @@
         
         /* --- FOOTER --- */
         .footer { text-align: center; padding: 2rem; margin-top: 3rem; border-top: 1px solid rgba(0, 170, 255, 0.3); background-color: rgba(10, 10, 10, 0.7); animation: fadeIn 1s ease-out 1s backwards; }
+
+        /* --- DEĞİŞİKLİK: BAKIM MODU --- */
+        #maintenance-overlay {
+            display: none; /* JS ile 'flex' olarak değiştirilecek */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+        .maintenance-box {
+            background-color: rgba(10, 10, 10, 0.9);
+            border: 2px solid var(--neon-red);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 0 40px var(--neon-red);
+            animation: scaleUp 0.6s ease-out 0.2s backwards;
+        }
+        .maintenance-box h1 {
+            color: var(--neon-red);
+            text-shadow: 0 0 10px var(--neon-red);
+            margin-bottom: 1.5rem;
+        }
+        .maintenance-box p {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        .maintenance-timer-container {
+            background-color: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid var(--neon-blue);
+            margin-bottom: 2.5rem;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+        #maintenance-timer {
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+            float: right;
+        }
+        #refresh-page-btn .reset-icon { 
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
     </style>
 </head>
 <body>
@@ -239,6 +297,23 @@
             </div>
         </div>
     </div>
+    
+    <!-- DEĞİŞİKLİK: BAKIM MOLASI MODALI -->
+    <div id="maintenance-overlay">
+        <div class="maintenance-box">
+            <h1 data-translate-key="maintenance_title">Bakım Molası</h1>
+            <p data-translate-key="maintenance_desc">Şu an ikinci oyunun kısmi sorunlarını çözmeye yoğun ilgi gösteriyorum. En kısa zamanda bu bakım molası bitecektir.</p>
+            <div class="maintenance-timer-container">
+                <span data-translate-key="maintenance_eta">Tahmini Bitiş Süresi:</span>
+                <span id="maintenance-timer">--:--:--</span>
+            </div>
+            <button id="refresh-page-btn" class="btn play-btn">
+                <svg class="reset-icon" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"></path></svg>
+                <span data-translate-key="maintenance_refresh">Yenile</span>
+            </button>
+        </div>
+    </div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -249,14 +324,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- ÇEVİRİ VERİLERİ ---
     const translations = { // <!-- DEĞİŞİKLİK: Yeni çeviri anahtarları eklendi -->
-        'tr': { popular: 'Popüler', store: 'Mağaza', daily_series: 'Günlük Seri', featured_game: 'Öne Çıkan Oyunlar', game_title_case: 'Kasa Açma Oyunu', game_title_horror: 'Otel Dehşeti', description_btn: 'Açıklama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Yakında', store_title: 'Mağaza', store_desc: 'Neon geliştirmeler ve dijital varlıklar çok yakında Mağaza\'da olacak!', footer_text: '© 2024 Gg games // Dijital Evren Projesi', modal_desc_case: 'Efsanevi dijital varlıkları bulmak için siber kasaları kırın! Bu yüksek teknoloji simülatörde şansınızı test edin, en nadir çipleri toplayın ve siber dünyadaki statünüzü yükseltin.', toggle_music: 'Müzik', daily_series_title: 'Günlük Seri', daily_series_desc: 'Seriyi bozma, 7. günde büyük ödülü kap! Her gün giriş yaparak ödülünü al.', claim_reward_btn: 'Ödülü Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Etkinliği', merchant_event: 'Tüccar', item_squid_card: 'Squid Game Card', price_xp: 'Fiyat:', release_date: 'Yayın Tarihi:', reset_data: 'Verileri Sıfırla', reset_confirm: 'Tüm site verileri (dil, ses, ilerleme) silinecek ve sayfa yenilenecektir. Emin misiniz?' },
-        'en': { popular: 'Popular', store: 'Store', daily_series: 'Daily Streak', featured_game: 'Featured Games', game_title_case: 'Case Opener Game', game_title_horror: 'Hotel Horror', description_btn: 'Description', play_btn: 'Play Game', coming_soon_btn: 'Coming Soon', store_title: 'Store', store_desc: 'Neon upgrades and digital assets will be in the Store soon!', footer_text: '© 2024 Gg games // Digital Universe Project', modal_desc_case: 'Crack cyber cases to find legendary digital assets! Test your luck in this high-tech simulator, collect the rarest chips, and upgrade your status in the cyber world.', toggle_music: 'Music', daily_series_title: 'Daily Streak', daily_series_desc: 'Don\'t break the streak, get the grand prize on day 7! Claim your reward by logging in every day.', claim_reward_btn: 'Claim Reward', day: 'Day', claimed_btn: 'Claimed', luck_event: 'Luck Event', merchant_event: 'Merchant', item_squid_card: 'Squid Game Card', price_xp: 'Price:', release_date: 'Release Date:', reset_data: 'Reset Data', reset_confirm: 'All site data (language, sound, progress) will be deleted and the page will be reloaded. Are you sure?' },
-        'az': { popular: 'Populyar', store: 'Mağaza', daily_series: 'Gündəlik Seriya', featured_game: 'Seçilmiş Oyunlar', game_title_case: 'Qutu Açma Oyunu', game_title_horror: 'Otel Dəhşəti', description_btn: 'Açıqlama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Tezliklə', store_title: 'Mağaza', store_desc: 'Neon təkmilləşdirmələr və rəqəmsal aktivlər tezliklə Mağazada olacaq!', footer_text: '© 2024 Gg games // Rəqəmsal Kainat Layihəsi', modal_desc_case: 'Əfsanəvi rəqəmsal aktivləri tapmaq üçün kiber qutuları qırın! Bu yüksək texnologiyalı simulyatorda şansınızı sınayın, ən nadir çipləri toplayın və kiber dünyadakı statusunuzu yüksəldin.', toggle_music: 'Musiqi', daily_series_title: 'Gündəlik Seriya', daily_series_desc: 'Seriyanı pozma, 7-ci gündə böyük mükafatı qazan! Hər gün daxil olaraq mükafatını al.', claim_reward_btn: 'Mükafatı Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Hadisəsi', merchant_event: 'Tacir', item_squid_card: 'Squid Game Kartı', price_xp: 'Qiymət:', release_date: 'Yayım Tarixi:', reset_data: 'Məlumatları Sıfırla', reset_confirm: 'Bütün sayt məlumatları (dil, səs, tərəqqi) silinəcək və səhifə yenidən yüklənəcək. Əminsiniz?' }
+        'tr': { popular: 'Popüler', store: 'Mağaza', daily_series: 'Günlük Seri', featured_game: 'Öne Çıkan Oyunlar', game_title_case: 'Kasa Açma Oyunu', game_title_horror: 'Otel Dehşeti', description_btn: 'Açıklama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Yakında', store_title: 'Mağaza', store_desc: 'Neon geliştirmeler ve dijital varlıklar çok yakında Mağaza\'da olacak!', footer_text: '© 2024 Gg games // Dijital Evren Projesi', modal_desc_case: 'Efsanevi dijital varlıkları bulmak için siber kasaları kırın! Bu yüksek teknoloji simülatörde şansınızı test edin, en nadir çipleri toplayın ve siber dünyadaki statünüzü yükseltin.', toggle_music: 'Müzik', daily_series_title: 'Günlük Seri', daily_series_desc: 'Seriyi bozma, 7. günde büyük ödülü kap! Her gün giriş yaparak ödülünü al.', claim_reward_btn: 'Ödülü Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Etkinliği', merchant_event: 'Tüccar', item_squid_card: 'Squid Game Card', price_xp: 'Fiyat:', release_date: 'Yayın Tarihi:', reset_data: 'Verileri Sıfırla', reset_confirm: 'Tüm site verileri (dil, ses, ilerleme) silinecek ve sayfa yenilenecektir. Emin misiniz?', maintenance_title: 'Bakım Molası', maintenance_desc: 'Şu an ikinci oyunun kısmi sorunlarını çözmeye yoğun ilgi gösteriyorum. En kısa zamanda bu bakım molası bitecektir.', maintenance_eta: 'Tahmini Bitiş Süresi:', maintenance_refresh: 'Yenile', maintenance_try_again: 'Tekrar Dene' },
+        'en': { popular: 'Popular', store: 'Store', daily_series: 'Daily Streak', featured_game: 'Featured Games', game_title_case: 'Case Opener Game', game_title_horror: 'Hotel Horror', description_btn: 'Description', play_btn: 'Play Game', coming_soon_btn: 'Coming Soon', store_title: 'Store', store_desc: 'Neon upgrades and digital assets will be in the Store soon!', footer_text: '© 2024 Gg games // Digital Universe Project', modal_desc_case: 'Crack cyber cases to find legendary digital assets! Test your luck in this high-tech simulator, collect the rarest chips, and upgrade your status in the cyber world.', toggle_music: 'Music', daily_series_title: 'Daily Streak', daily_series_desc: 'Don\'t break the streak, get the grand prize on day 7! Claim your reward by logging in every day.', claim_reward_btn: 'Claim Reward', day: 'Day', claimed_btn: 'Claimed', luck_event: 'Luck Event', merchant_event: 'Merchant', item_squid_card: 'Squid Game Card', price_xp: 'Price:', release_date: 'Release Date:', reset_data: 'Reset Data', reset_confirm: 'All site data (language, sound, progress) will be deleted and the page will be reloaded. Are you sure?', maintenance_title: 'Maintenance Break', maintenance_desc: 'I am currently focusing on resolving partial issues with the second game. This maintenance break will end as soon as possible.', maintenance_eta: 'Estimated End Time:', maintenance_refresh: 'Refresh', maintenance_try_again: 'Try Again' },
+        'az': { popular: 'Populyar', store: 'Mağaza', daily_series: 'Gündəlik Seriya', featured_game: 'Seçilmiş Oyunlar', game_title_case: 'Qutu Açma Oyunu', game_title_horror: 'Otel Dəhşəti', description_btn: 'Açıqlama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Tezliklə', store_title: 'Mağaza', store_desc: 'Neon təkmilləşdirmələr və rəqəmsal aktivlər tezliklə Mağazada olacaq!', footer_text: '© 2024 Gg games // Rəqəmsal Kainat Layihəsi', modal_desc_case: 'Əfsanəvi rəqəmsal aktivləri tapmaq üçün kiber qutuları qırın! Bu yüksək texnologiyalı simulyatorda şansınızı sınayın, ən nadir çipləri toplayın və kiber dünyadakı statusunuzu yüksəldin.', toggle_music: 'Musiqi', daily_series_title: 'Gündəlik Seriya', daily_series_desc: 'Seriyanı pozma, 7-ci gündə böyük mükafatı qazan! Hər gün daxil olaraq mükafatını al.', claim_reward_btn: 'Mükafatı Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Hadisəsi', merchant_event: 'Tacir', item_squid_card: 'Squid Game Kartı', price_xp: 'Qiymət:', release_date: 'Yayım Tarixi:', reset_data: 'Məlumatları Sıfırla', reset_confirm: 'Bütün sayt məlumatları (dil, səs, tərəqqi) silinəcək və səhifə yenidən yüklənəcək. Əminsiniz?', maintenance_title: 'Texniki Fasilə', maintenance_desc: 'Hazırda ikinci oyunun qismən problemlərini həll etməyə diqqət yetirirəm. Bu texniki fasilə ən qısa zamanda başa çatacaq.', maintenance_eta: 'Təxmini Bitiş Vaxtı:', maintenance_refresh: 'Yenilə', maintenance_try_again: 'Yenidən Cəhd Edin' }
     };
     
     // --- DİL SİSTEMİ ---
     const langOptions = document.querySelectorAll('.lang-option');
-    const changeLanguage = (lang) => { if (!translations[lang]) lang = 'tr'; document.querySelectorAll('[data-translate-key]').forEach(el => { const key = el.dataset.translateKey; if(translations[lang][key]) {el.textContent = translations[lang][key];}}); localStorage.setItem('gg_games_lang', lang); langOptions.forEach(opt => { opt.classList.toggle('active-lang', opt.dataset.lang === lang);}); initDailySeries(); };
+    const changeLanguage = (lang) => { if (!translations[lang]) lang = 'tr'; document.querySelectorAll('[data-translate-key]').forEach(el => { const key = el.dataset.translateKey; if(translations[lang] && translations[lang][key]) {el.textContent = translations[lang][key];}}); localStorage.setItem('gg_games_lang', lang); langOptions.forEach(opt => { opt.classList.toggle('active-lang', opt.dataset.lang === lang);}); initDailySeries(); };
     langOptions.forEach(option => { option.addEventListener('click', (e) => { e.preventDefault(); changeLanguage(e.target.dataset.lang); document.getElementById('settings-dropdown-menu').classList.remove('show'); }); });
 
     // --- SES KONTROLLERİ ---
@@ -316,28 +391,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     };
 
-    // <!-- YENİ FONKSİYON: Belirli bir tarihe geri sayım -->
     const startFixedDateCountdown = (elementId, targetDateString) => {
         const element = document.getElementById(elementId);
         if (!element) return;
-
         const targetTime = new Date(targetDateString).getTime();
-
         const interval = setInterval(() => {
             const now = new Date().getTime();
             const distance = targetTime - now;
-
             if (distance < 0) {
                 clearInterval(interval);
-                element.textContent = "YAYINDA!"; // Veya çeviri anahtarı kullanılabilir
+                element.textContent = "YAYINDA!";
                 return;
             }
-
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
-            
             element.textContent = `${days} G : ${hours} S : ${minutes} D : ${seconds} s`;
         }, 1000);
     };
@@ -347,36 +416,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const claimBtn = document.getElementById('claim-daily-btn');
     const initDailySeries = () => {
         if(!dailyTracker || !claimBtn) return;
-        
         let dailyData = JSON.parse(localStorage.getItem('gg_daily_streak')) || { streak: 0, lastClaimed: null };
-        const today = new Date().toISOString().split('T')[0]; // "2024-05-21"
-        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]; // Dünün tarihi
-
-        // Seriyi kontrol et. Bu mantık zaten 24 saatte (takvim gününde) bir ödül almaya izin verir.
-        // Eğer son alınan ödül bugünden veya dünden farklı bir gün ise seri sıfırlanır.
+        const today = new Date().toISOString().split('T')[0];
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
         if (dailyData.lastClaimed && dailyData.lastClaimed !== today && dailyData.lastClaimed !== yesterday) {
-            dailyData.streak = 0; // Seriyi sıfırla
-            localStorage.setItem('gg_daily_streak', JSON.stringify(dailyData)); // Sıfırlanmış veriyi kaydet
+            dailyData.streak = 0;
+            localStorage.setItem('gg_daily_streak', JSON.stringify(dailyData));
         }
-        
         dailyTracker.innerHTML = '';
         const currentLang = localStorage.getItem('gg_games_lang') || 'tr';
         const dayText = (translations[currentLang] && translations[currentLang].day) ? translations[currentLang].day : 'Day';
-
-
         for(let i=1; i<=7; i++) {
             const dayBox = document.createElement('div');
             dayBox.className = 'day-box';
-            if (i <= dailyData.streak) {
-                dayBox.classList.add('claimed');
-            }
+            if (i <= dailyData.streak) { dayBox.classList.add('claimed'); }
             dayBox.innerHTML = `<span class="day-number">${i}</span><span>${dayText}</span>`;
             dailyTracker.appendChild(dayBox);
         }
-        
         const claimText = (translations[currentLang] && translations[currentLang].claim_reward_btn) ? translations[currentLang].claim_reward_btn : 'Claim Reward';
         const claimedText = (translations[currentLang] && translations[currentLang].claimed_btn) ? translations[currentLang].claimed_btn : 'Claimed';
-
         if (dailyData.lastClaimed === today) {
             claimBtn.classList.add('disabled');
             claimBtn.textContent = claimedText;
@@ -385,44 +443,83 @@ document.addEventListener('DOMContentLoaded', function() {
             claimBtn.textContent = claimText;
         }
     };
-    
     if(claimBtn) {
         claimBtn.addEventListener('click', () => {
             if(claimBtn.classList.contains('disabled')) return;
-
             let dailyData = JSON.parse(localStorage.getItem('gg_daily_streak')) || { streak: 0, lastClaimed: null };
             const today = new Date().toISOString().split('T')[0];
-            
             if (dailyData.lastClaimed !== today) {
                 dailyData.streak = (dailyData.streak % 7) + 1;
                 dailyData.lastClaimed = today;
                 localStorage.setItem('gg_daily_streak', JSON.stringify(dailyData));
-                initDailySeries(); // Arayüzü güncelle
+                initDailySeries();
             }
         });
     }
     
-    // <!-- YENİ: Veri sıfırlama fonksiyonu -->
+    // --- VERİ SIFIRLAMA ---
     const resetBtn = document.getElementById('reset-data-btn');
     if (resetBtn) {
         resetBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const currentLang = localStorage.getItem('gg_games_lang') || 'tr';
             const confirmText = (translations[currentLang] && translations[currentLang].reset_confirm) ? translations[currentLang].reset_confirm : 'Are you sure?';
-
             if (confirm(confirmText)) {
-                // Tüm ilgili localStorage anahtarlarını temizle
                 localStorage.removeItem('gg_games_lang');
                 localStorage.removeItem('gg_games_music_muted');
                 localStorage.removeItem('gg_luck_event_end');
                 localStorage.removeItem('gg_merchant_end');
                 localStorage.removeItem('gg_daily_streak');
-                
-                // Sayfayı yeniden yükleyerek sıfırlamayı tamamla
                 location.reload();
             }
         });
     }
+    
+    // --- DEĞİŞİKLİK: BAKIM MODU SİSTEMİ ---
+    const activateMaintenanceMode = (show) => {
+        const overlay = document.getElementById('maintenance-overlay');
+        if (!overlay) return;
+
+        if (show) {
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Arka planın kaydırılmasını engelle
+            
+            const maintenanceTimerEl = document.getElementById('maintenance-timer');
+            const refreshBtn = document.getElementById('refresh-page-btn');
+
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', () => location.reload());
+            }
+
+            if (maintenanceTimerEl) {
+                const today = new Date();
+                // Hedef saati bugünün 14:00'ü olarak ayarla
+                const targetTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 14, 0, 0).getTime();
+
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = targetTime - now;
+
+                    if (distance < 0) {
+                        clearInterval(interval);
+                        const currentLang = localStorage.getItem('gg_games_lang') || 'tr';
+                        const tryAgainText = (translations[currentLang] && translations[currentLang].maintenance_try_again) ? translations[currentLang].maintenance_try_again : 'Tekrar Dene';
+                        maintenanceTimerEl.textContent = tryAgainText;
+                        return;
+                    }
+
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                    maintenanceTimerEl.textContent = `${hours}:${minutes}:${seconds}`;
+                }, 1000);
+            }
+        } else {
+            overlay.style.display = 'none';
+            document.body.style.overflow = ''; // Kaydırmayı geri aç
+        }
+    };
+
 
     // --- BAŞLANGIÇ FONKSİYONLARI ---
     const savedLang = localStorage.getItem('gg_games_lang') || 'tr';
@@ -430,6 +527,10 @@ document.addEventListener('DOMContentLoaded', function() {
     startCountdown('luck-event-timer', 'gg_luck_event_end', 3600); // 1 saat
     startCountdown('merchant-timer', 'gg_merchant_end', 1800); // 30 dakika
     startFixedDateCountdown('horror-release-timer', '2025-08-01T13:15:00'); // Otel Dehşeti sayacı
+
+    // Bakım modunu etkinleştirmek için bu satırı kullanın.
+    // Kaldırmak için satırı silebilir veya `true` yerine `false` yazabilirsiniz.
+    activateMaintenanceMode(true); 
 });
 </script>
 
