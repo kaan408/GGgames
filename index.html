@@ -11,8 +11,10 @@
         :root { 
             --neon-blue: #00f2ff; 
             --neon-red: #ff006a;
+            --neon-green: #39ff14; /* Yeni oyun için */
             --dark-bg: #0a0a0a; 
             --blood-red: #bb0a1e;
+            --roblox-grey: #a3a2a5; /* Roblox ikonu için */
         }
 
         /* --- KEYFRAME ANIMASYONLARI --- */
@@ -26,7 +28,8 @@
         @keyframes background-scan { from { background-position: 0 0; } to { background-position: 70px 70px; } }
         @keyframes background-pulse { 0%, 100% { background-color: var(--dark-bg); } 50% { background-color: #100c14; } }
         @keyframes particle-float { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }
-        @keyframes skull-float {
+        
+        @keyframes side-float { /* Roblox ve Skull için ortak animasyon */
             0% { transform: translateY(0) scale(0.7) rotate(-10deg); opacity: 0; }
             25% { opacity: 0.8; }
             75% { opacity: 0.8; }
@@ -46,17 +49,7 @@
         .nav-links a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 0; background-color: var(--neon-blue); transition: width 0.3s; }
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
         .nav-links a:hover, .nav-links a.active { color: #ffffff; text-shadow: 0 0 5px var(--neon-blue); }
-        
-        .xp-display {
-            background-color: rgba(0, 242, 255, 0.1);
-            border: 1px solid rgba(0, 242, 255, 0.4);
-            border-radius: 5px;
-            padding: 6px 12px;
-            margin-right: 0.5rem;
-            color: var(--neon-blue);
-            font-weight: 700;
-            text-shadow: 0 0 5px var(--neon-blue);
-        }
+        .xp-display { background-color: rgba(0, 242, 255, 0.1); border: 1px solid rgba(0, 242, 255, 0.4); border-radius: 5px; padding: 6px 12px; margin-right: 0.5rem; color: var(--neon-blue); font-weight: 700; text-shadow: 0 0 5px var(--neon-blue); }
         #xp-amount { color: #fff; }
 
         /* --- AYARLAR DROPDOWN --- */
@@ -84,51 +77,25 @@
         .game-display-area { display: flex; justify-content: center; align-items: stretch; gap: 2rem; flex-wrap: wrap; animation: scaleUp 0.7s ease-out 0.8s backwards; }
         .game-card, .store-item-card { background-color: rgba(20, 20, 20, 0.8); border-radius: 10px; overflow: hidden; border: 1px solid rgba(0, 170, 255, 0.5); box-shadow: 0 0 15px rgba(0, 170, 255, 0.3); transition: all 0.3s ease-in-out; width: 100%; max-width: 360px; display: flex; flex-direction: column; animation: slideInUp 0.8s ease-out backwards; position: relative; }
         .game-card:nth-child(2) { animation-delay: 0.2s; }
+        .game-card:nth-child(3) { animation-delay: 0.4s; }
         .game-card:hover, .store-item-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 0 35px rgba(0, 170, 255, 0.7); }
         
-        .game-card.dark-theme { 
-            border-color: rgba(187, 10, 30, 0.7); 
-            animation: creepy-glow 6s infinite ease-in-out, slideInUp 0.8s ease-out backwards;
-            animation-delay: 0.2s;
-            overflow: visible; /* Efektlerin dışarı taşması için */
-        }
-        .game-card.dark-theme:hover { 
-            transform: translateY(-10px) scale(1.03); 
-            box-shadow: 0 0 40px rgba(255, 0, 106, 0.8); 
-        }
+        .game-card.dark-theme { border-color: rgba(187, 10, 30, 0.7); animation: creepy-glow 6s infinite ease-in-out, slideInUp 0.8s ease-out backwards; animation-delay: 0.2s; overflow: visible; }
+        .game-card.dark-theme:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 0 40px rgba(255, 0, 106, 0.8); }
         .game-card.dark-theme .card-image { border-color: rgba(187, 10, 30, 0.7); }
-        .beta-tag {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--blood-red);
-            color: #fff;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            z-index: 2;
-            text-shadow: 0 0 5px #000;
-        }
-        .skull-animation {
-            position: absolute;
-            width: 28px;
-            height: 28px;
-            opacity: 0;
-            pointer-events: none;
-            animation: skull-float 4s ease-out infinite;
-            z-index: 3;
-        }
-        .skull-animation svg {
-            width: 100%;
-            height: 100%;
-            fill: var(--neon-red);
-            filter: drop-shadow(0 0 4px var(--neon-red));
-        }
-        .skull-1 { top: -15px; left: 20%; animation-delay: 0s; }
-        .skull-2 { top: 35%; right: -20px; animation-delay: 1.2s; }
-        .skull-3 { bottom: -10px; left: 65%; animation-delay: 2.3s; }
-        .skull-4 { top: 70%; left: -25px; animation-delay: 3.1s; }
+        .beta-tag, .new-tag { position: absolute; top: 10px; right: 10px; color: #fff; padding: 3px 8px; border-radius: 5px; font-size: 0.9rem; font-weight: 700; z-index: 2; text-shadow: 0 0 5px #000; }
+        .beta-tag { background-color: var(--blood-red); }
+        .new-tag { background-color: var(--neon-green); color: var(--dark-bg); }
+
+        .side-animation { position: absolute; width: 28px; height: 28px; opacity: 0; pointer-events: none; animation: side-float 4s ease-out infinite; z-index: 3; }
+        .side-animation svg { width: 100%; height: 100%; }
+        .skull-animation svg { fill: var(--neon-red); filter: drop-shadow(0 0 4px var(--neon-red)); }
+        .roblox-animation svg { fill: var(--roblox-grey); filter: drop-shadow(0 0 4px var(--roblox-grey));}
+
+        .anim-1 { top: -15px; left: 20%; animation-delay: 0s; }
+        .anim-2 { top: 35%; right: -20px; animation-delay: 1.2s; }
+        .anim-3 { bottom: -10px; left: 65%; animation-delay: 2.3s; }
+        .anim-4 { top: 70%; left: -25px; animation-delay: 3.1s; }
         
         .card-image { width: 100%; height: 190px; object-fit: cover; display: block; border-bottom: 1px solid rgba(0, 170, 255, 0.5); }
         .card-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
@@ -141,8 +108,10 @@
         .play-btn svg { width: 16px; height: 16px; fill: currentColor; }
         .view-description-btn { background-color: transparent; color: var(--neon-blue); border: 2px solid var(--neon-blue); }
         .view-description-btn.dark-theme-btn { color: var(--neon-red); border-color: var(--neon-red); }
+        .view-description-btn.new-theme-btn { color: var(--neon-green); border-color: var(--neon-green); } /* Yeni buton stili */
         .view-description-btn:hover { background-color: var(--neon-blue); color: var(--dark-bg); }
         .view-description-btn.dark-theme-btn:hover { background-color: var(--neon-red); color: var(--dark-bg); }
+        .view-description-btn.new-theme-btn:hover { background-color: var(--neon-green); color: var(--dark-bg); }
         .btn.disabled { background-color: #333; color: #888; border-color: #555; cursor: not-allowed; box-shadow: none; animation: none; }
         .btn.disabled:hover { transform: none; background-color: #333; color: #888; }
         
@@ -168,7 +137,9 @@
         .modal h2 { margin-top: 0; color: var(--neon-blue); text-shadow: 0 0 8px var(--neon-blue); }
         .modal-content.dark-theme { border-color: rgba(187, 10, 30, 0.7); box-shadow: 0 0 40px rgba(255, 0, 106, 0.5); }
         .modal-content.dark-theme h2, .modal-content.dark-theme .close-btn:hover { color: var(--neon-red); text-shadow: 0 0 8px var(--neon-red); }
-        .countdown-container { margin-top: 2rem; border-top: 1px solid rgba(0,170,255,0.3); padding-top: 1.5rem; }
+        .modal-content.new-theme { border-color: rgba(57, 255, 20, 0.7); box-shadow: 0 0 40px rgba(57, 255, 20, 0.5); }
+        .modal-content.new-theme h2, .modal-content.new-theme .close-btn:hover { color: var(--neon-green); text-shadow: 0 0 8px var(--neon-green); }
+        .countdown-container { margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 1.5rem; }
         .countdown-timer { background-color: rgba(0,0,0,0.4); padding: 10px 15px; border-radius: 5px; border-left: 3px solid var(--neon-blue); margin-bottom: 1rem; }
         .countdown-timer span { font-size: 1.1rem; color: #fff; text-shadow: 0 0 4px var(--neon-blue); }
         .countdown-timer .timer { float: right; font-weight: 700; }
@@ -182,6 +153,9 @@
         <defs>
             <symbol id="skull-svg" viewBox="0 0 48 48">
                 <path d="M24,4C14.059,4,6,12.059,6,22c0,6.542,3.582,12.253,8.963,15.291L15,38.291V44h18v-5.709l0.037-0.001 C38.418,35.253,42,29.542,42,23C42,12.522,33.941,4,24,4z M16,20c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S17.657,20,16,20z M32,20c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S33.657,20,32,20z"/>
+            </symbol>
+            <symbol id="roblox-svg" viewBox="0 0 24 24"> <!-- YENİ ROBLOX SVG'Sİ -->
+                <path d="M12 0L1.706 5.4v13.2L12 24l10.294-5.4V5.4L12 0zm7.141 17.024l-7.141 3.788-7.141-3.788V6.976l7.141-3.787 7.141 3.787v10.048zM9.176 9.176l5.647 5.647-1.412 1.412-5.647-5.647 1.412-1.412zm5.647 0l-5.647 5.647 1.412 1.412 5.647-5.647-1.412-1.412z"/>
             </symbol>
         </defs>
     </svg>
@@ -238,17 +212,35 @@
                 <div class="game-card"><img src="https://placehold.co/600x400/007bff/0a0a0a?text=Dijital+Kasa" alt="Kasa Açma Oyunu" class="card-image"><div class="card-info"><h3><span data-translate-key="game_title_case">Kasa Açma Oyunu</span></h3><div class="button-group"><button id="open-modal-btn" class="btn view-description-btn" data-translate-key="description_btn">Açıklama</button><a href="https://kaan408.github.io/create-sumilator-mk/" target="_blank" class="btn play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg><span data-translate-key="play_btn">Oyuna Gir</span></a></div></div></div>
                 <div class="game-card dark-theme">
                     <div class="beta-tag" data-translate-key="beta">BETA</div>
-                    <div class="skull-animation skull-1"><svg><use xlink:href="#skull-svg"/></svg></div>
-                    <div class="skull-animation skull-2"><svg><use xlink:href="#skull-svg"/></svg></div>
-                    <div class="skull-animation skull-3"><svg><use xlink:href="#skull-svg"/></svg></div>
-                    <div class="skull-animation skull-4"><svg><use xlink:href="#skull-svg"/></svg></div>
+                    <div class="side-animation skull-animation anim-1"><svg><use xlink:href="#skull-svg"/></svg></div>
+                    <div class="side-animation skull-animation anim-2"><svg><use xlink:href="#skull-svg"/></svg></div>
+                    <div class="side-animation skull-animation anim-3"><svg><use xlink:href="#skull-svg"/></svg></div>
+                    <div class="side-animation skull-animation anim-4"><svg><use xlink:href="#skull-svg"/></svg></div>
                     <img src="https://placehold.co/600x400/bb0a1e/0a0a0a?text=Otel+Dehşeti" alt="Otel Dehşeti" class="card-image">
                     <div class="card-info">
                         <h3><span data-translate-key="game_title_horror">Otel Dehşeti</span></h3>
                         <div class="button-group">
                             <button id="open-horror-modal-btn" class="btn view-description-btn dark-theme-btn" data-translate-key="description_btn">Açıklama</button>
-                            <!-- DEĞİŞİKLİK: 'Oyuna Gir' butonu güncellendi -->
                             <a href="https://kaan408.github.io/OtelDehseti/" target="_blank" class="btn play-btn">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                                <span data-translate-key="play_btn">Oyuna Gir</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- YENİ OYUN KARTI -->
+                <div class="game-card">
+                    <div class="new-tag" data-translate-key="new_tag">YENİ</div>
+                    <div class="side-animation roblox-animation anim-1"><svg><use xlink:href="#roblox-svg"/></svg></div>
+                    <div class="side-animation roblox-animation anim-2"><svg><use xlink:href="#roblox-svg"/></svg></div>
+                    <div class="side-animation roblox-animation anim-3"><svg><use xlink:href="#roblox-svg"/></svg></div>
+                    <div class="side-animation roblox-animation anim-4"><svg><use xlink:href="#roblox-svg"/></svg></div>
+                    <img src="https://placehold.co/600x400/39ff14/0a0a0a?text=Imposible+Parkour" alt="Imposible Parkour" class="card-image">
+                    <div class="card-info">
+                        <h3><span data-translate-key="game_title_parkour">Imposible Parkour [🌴]</span></h3>
+                        <div class="button-group">
+                            <button id="open-parkour-modal-btn" class="btn view-description-btn new-theme-btn" data-translate-key="description_btn">Açıklama</button>
+                            <a href="https://www.roblox.com/games/125727066684348/Imposible-Parkour" target="_blank" class="btn play-btn">
                                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
                                 <span data-translate-key="play_btn">Oyuna Gir</span>
                             </a>
@@ -284,10 +276,10 @@
 
     <footer class="footer"><p data-translate-key="footer_text">© 2024 Gg games // Dijital Evren Projesi</p></footer>
     
-    <!-- KASA AÇMA OYUNU AÇIKLAMA MODALI -->
+    <!-- MODALLAR -->
     <div id="description-modal" class="modal">
         <div class="modal-content">
-            <span id="close-modal-btn" class="close-btn">×</span>
+            <span class="close-btn">×</span>
             <h2 data-translate-key="game_title_case">Kasa Açma Oyunu</h2>
             <p data-translate-key="modal_desc_case">Efsanevi dijital varlıkları bulmak için siber kasaları kırın! Bu yüksek teknoloji simülatörde şansınızı test edin, en nadir çipleri toplayın ve siber dünyadaki statünüzü yükseltin.</p>
             <div class="countdown-container">
@@ -297,28 +289,41 @@
         </div>
     </div>
 
-    <!-- OTEL DEHŞETİ AÇIKLAMA MODALI -->
     <div id="horror-modal" class="modal">
         <div class="modal-content dark-theme">
-            <span id="close-horror-modal-btn" class="close-btn">×</span>
+            <span class="close-btn">×</span>
             <h2 data-translate-key="game_title_horror">Otel Dehşeti</h2>
             <p data-translate-key="modal_desc_horror">Terk edilmiş bir otelin karanlık koridorlarında hayatta kalma mücadelesi verin. Gizemleri çözün, paranormal varlıklardan kaçının ve bu kabustan uyanmanın bir yolunu bulun.</p>
         </div>
     </div>
 
+    <div id="parkour-modal" class="modal"> <!-- YENİ MODAL -->
+        <div class="modal-content new-theme">
+            <span class="close-btn">×</span>
+            <h2 data-translate-key="game_title_parkour">Imposible Parkour [🌴]</h2>
+            <p data-translate-key="modal_desc_parkour">İmkansız parkurları tamamlamaya çalışın ve liderlik tablosunda en üste tırmanın!</p>
+            <div class="countdown-container">
+                 <div class="countdown-timer">
+                    <span data-translate-key="update_countdown">Büyük Güncellemeye Kalan Süre:</span>
+                    <span id="parkour-update-timer" class="timer">--</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // --- ELEMENTLER ---
+    // --- ELEMENTLER VE DURUM DEĞİŞKENLERİ ---
     const bgMusic = document.getElementById('background-music');
     const clickSound = document.getElementById('click-sound');
-    let isMusicStarted = false;
+    let isAudioInitialized = false;
+    let isMuted = localStorage.getItem('gg_games_music_muted') === 'true';
 
     // --- ÇEVİRİ VERİLERİ ---
     const translations = {
-        'tr': { popular: 'Popüler', store: 'Mağaza', daily_series: 'Günlük Seri', statistics: 'İstatistikler', featured_game: 'Öne Çıkan Oyunlar', game_title_case: 'Kasa Açma Oyunu', game_title_horror: 'Otel Dehşeti', description_btn: 'Açıklama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Yakında', store_title: 'Mağaza', store_desc: 'Neon geliştirmeler ve dijital varlıklar çok yakında Mağaza\'da olacak!', footer_text: '© 2024 Gg games // Dijital Evren Projesi', modal_desc_case: 'Efsanevi dijital varlıkları bulmak için siber kasaları kırın! Bu yüksek teknoloji simülatörde şansınızı test edin, en nadir çipleri toplayın ve siber dünyadaki statünüzü yükseltin.', toggle_music: 'Müzik', daily_series_title: 'Günlük Seri', daily_series_desc: 'Seriyi bozma, 7. günde büyük ödülü kap! Her gün giriş yaparak ödülünü al.', claim_reward_btn: 'Ödülü Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Etkinliği', merchant_event: 'Tüccar', item_squid_card: 'Squid Game Card', price_xp: 'Fiyat:', reset_data: 'Verileri Sıfırla', reset_confirm: 'Tüm site verileri (dil, ses, ilerleme) silinecek ve sayfa yenilenecektir. Emin misiniz?', xp: 'XP:', beta: 'BETA', stats_title: 'İstatistikler', stats_desc: 'Oyun ilerlemeniz ve istatistikleriniz yakında burada olacak.', modal_desc_horror: 'Terk edilmiş bir otelin karanlık koridorlarında hayatta kalma mücadelesi verin. Gizemleri çözün, paranormal varlıklardan kaçının ve bu kabustan uyanmanın bir yolunu bulun.' },
-        'en': { popular: 'Popular', store: 'Store', daily_series: 'Daily Streak', statistics: 'Statistics', featured_game: 'Featured Games', game_title_case: 'Case Opener Game', game_title_horror: 'Hotel Horror', description_btn: 'Description', play_btn: 'Play Game', coming_soon_btn: 'Coming Soon', store_title: 'Store', store_desc: 'Neon upgrades and digital assets will be in the Store soon!', footer_text: '© 2024 Gg games // Digital Universe Project', modal_desc_case: 'Crack cyber cases to find legendary digital assets! Test your luck in this high-tech simulator, collect the rarest chips, and upgrade your status in the cyber world.', toggle_music: 'Music', daily_series_title: 'Daily Streak', daily_series_desc: 'Don\'t break the streak, get the grand prize on day 7! Claim your reward by logging in every day.', claim_reward_btn: 'Claim Reward', day: 'Day', claimed_btn: 'Claimed', luck_event: 'Luck Event', merchant_event: 'Merchant', item_squid_card: 'Squid Game Card', price_xp: 'Price:', reset_data: 'Reset Data', reset_confirm: 'All site data (language, sound, progress) will be deleted and the page will be reloaded. Are you sure?', xp: 'XP:', beta: 'BETA', stats_title: 'Statistics', stats_desc: 'Your game progress and stats will be here soon.', modal_desc_horror: 'Fight to survive in the dark corridors of an abandoned hotel. Solve mysteries, avoid paranormal entities, and find a way to wake up from this nightmare.' },
-        'az': { popular: 'Populyar', store: 'Mağaza', daily_series: 'Gündəlik Seriya', statistics: 'Statistika', featured_game: 'Seçilmiş Oyunlar', game_title_case: 'Qutu Açma Oyunu', game_title_horror: 'Otel Dəhşəti', description_btn: 'Açıqlama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Tezliklə', store_title: 'Mağaza', store_desc: 'Neon təkmilləşdirmələr və rəqəmsal aktivlər tezliklə Mağazada olacaq!', footer_text: '© 2024 Gg games // Rəqəmsal Kainat Layihəsi', modal_desc_case: 'Əfsanəvi rəqəmsal aktivləri tapmaq üçün kiber qutuları qırın! Bu yüksək texnologiyalı simulyatorda şansınızı sınayın, ən nadir çipləri toplayın və kiber dünyadakı statusunuzu yüksəldin.', toggle_music: 'Musiqi', daily_series_title: 'Gündəlik Seriya', daily_series_desc: 'Seriyanı pozma, 7-ci gündə böyük mükafatı qazan! Hər gün daxil olaraq mükafatını al.', claim_reward_btn: 'Mükafatı Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Hadisəsi', merchant_event: 'Tacir', item_squid_card: 'Squid Game Kartı', price_xp: 'Qiymət:', reset_data: 'Məlumatları Sıfırla', reset_confirm: 'Bütün sayt məlumatları (dil, səs, tərəqqi) silinəcək və səhifə yenidən yüklənəcək. Əminsiniz?', xp: 'XP:', beta: 'BETA', stats_title: 'Statistika', stats_desc: 'Oyun tərəqqiniz və statistikalarınız tezliklə burada olacaq.', modal_desc_horror: 'Tərk edilmiş bir otelin qaranlıq dəhlizlərində sağ qalmaq üçün mübarizə aparın. Sirləri açın, paranormal varlıqlardan qaçın və bu kabusdan oyanmağın bir yolunu tapın.'}
+        'tr': { popular: 'Popüler', store: 'Mağaza', daily_series: 'Günlük Seri', statistics: 'İstatistikler', featured_game: 'Öne Çıkan Oyunlar', game_title_case: 'Kasa Açma Oyunu', game_title_horror: 'Otel Dehşeti', game_title_parkour: 'Imposible Parkour [🌴]', description_btn: 'Açıklama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Yakında', store_title: 'Mağaza', store_desc: 'Neon geliştirmeler ve dijital varlıklar çok yakında Mağaza\'da olacak!', footer_text: '© 2024 Gg games // Dijital Evren Projesi', modal_desc_case: 'Efsanevi dijital varlıkları bulmak için siber kasaları kırın! Bu yüksek teknoloji simülatörde şansınızı test edin, en nadir çipleri toplayın ve siber dünyadaki statünüzü yükseltin.', toggle_music: 'Tüm Sesler', daily_series_title: 'Günlük Seri', daily_series_desc: 'Seriyi bozma, 7. günde büyük ödülü kap! Her gün giriş yaparak ödülünü al.', claim_reward_btn: 'Ödülü Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Etkinliği', merchant_event: 'Tüccar', item_squid_card: 'Squid Game Card', price_xp: 'Fiyat:', reset_data: 'Verileri Sıfırla', reset_confirm: 'Tüm site verileri (dil, ses, ilerleme) silinecek ve sayfa yenilenecektir. Emin misiniz?', xp: 'XP:', beta: 'BETA', new_tag: 'YENİ', stats_title: 'İstatistikler', stats_desc: 'Oyun ilerlemeniz ve istatistikleriniz yakında burada olacak.', modal_desc_horror: 'Terk edilmiş bir otelin karanlık koridorlarında hayatta kalma mücadelesi verin. Gizemleri çözün, paranormal varlıklardan kaçının ve bu kabustan uyanmanın bir yolunu bulun.', modal_desc_parkour: 'İmkansız parkurları tamamlamaya çalışın ve liderlik tablosunda en üste tırmanın!', update_countdown: 'Büyük Güncellemeye Kalan Süre:' },
+        'en': { popular: 'Popular', store: 'Store', daily_series: 'Daily Streak', statistics: 'Statistics', featured_game: 'Featured Games', game_title_case: 'Case Opener Game', game_title_horror: 'Hotel Horror', game_title_parkour: 'Imposible Parkour [🌴]', description_btn: 'Description', play_btn: 'Play Game', coming_soon_btn: 'Coming Soon', store_title: 'Store', store_desc: 'Neon upgrades and digital assets will be in the Store soon!', footer_text: '© 2024 Gg games // Digital Universe Project', modal_desc_case: 'Crack cyber cases to find legendary digital assets! Test your luck in this high-tech simulator, collect the rarest chips, and upgrade your status in the cyber world.', toggle_music: 'All Sounds', daily_series_title: 'Daily Streak', daily_series_desc: 'Don\'t break the streak, get the grand prize on day 7! Claim your reward by logging in every day.', claim_reward_btn: 'Claim Reward', day: 'Day', claimed_btn: 'Claimed', luck_event: 'Luck Event', merchant_event: 'Merchant', item_squid_card: 'Squid Game Card', price_xp: 'Price:', reset_data: 'Reset Data', reset_confirm: 'All site data (language, sound, progress) will be deleted and the page will be reloaded. Are you sure?', xp: 'XP:', beta: 'BETA', new_tag: 'NEW', stats_title: 'Statistics', stats_desc: 'Your game progress and stats will be here soon.', modal_desc_horror: 'Fight to survive in the dark corridors of an abandoned hotel. Solve mysteries, avoid paranormal entities, and find a way to wake up from this nightmare.', modal_desc_parkour: 'Try to complete impossible parkours and climb to the top of the leaderboard!', update_countdown: 'Time Until Major Update:'},
+        'az': { popular: 'Populyar', store: 'Mağaza', daily_series: 'Gündəlik Seriya', statistics: 'Statistika', featured_game: 'Seçilmiş Oyunlar', game_title_case: 'Qutu Açma Oyunu', game_title_horror: 'Otel Dəhşəti', game_title_parkour: 'Imposible Parkour [🌴]', description_btn: 'Açıqlama', play_btn: 'Oyuna Gir', coming_soon_btn: 'Tezliklə', store_title: 'Mağaza', store_desc: 'Neon təkmilləşdirmələr və rəqəmsal aktivlər tezliklə Mağazada olacaq!', footer_text: '© 2024 Gg games // Rəqəmsal Kainat Layihəsi', modal_desc_case: 'Əfsanəvi rəqəmsal aktivləri tapmaq üçün kiber qutuları qırın! Bu yüksək texnologiyalı simulyatorda şansınızı sınayın, ən nadir çipləri toplayın və kiber dünyadakı statusunuzu yüksəldin.', toggle_music: 'Bütün Səslər', daily_series_title: 'Gündəlik Seriya', daily_series_desc: 'Seriyanı pozma, 7-ci gündə böyük mükafatı qazan! Hər gün daxil olaraq mükafatını al.', claim_reward_btn: 'Mükafatı Al', day: 'Gün', claimed_btn: 'Alındı', luck_event: 'Şans Hadisəsi', merchant_event: 'Tacir', item_squid_card: 'Squid Game Kartı', price_xp: 'Qiymət:', reset_data: 'Məlumatları Sıfırla', reset_confirm: 'Bütün sayt məlumatları (dil, səs, tərəqqi) silinəcək və səhifə yenidən yüklənəcək. Əminsiniz?', xp: 'XP:', beta: 'BETA', new_tag: 'YENİ', stats_title: 'Statistika', stats_desc: 'Oyun tərəqqiniz və statistikalarınız tezliklə burada olacaq.', modal_desc_horror: 'Tərk edilmiş bir otelin qaranlıq dəhlizlərində sağ qalmaq üçün mübarizə aparın. Sirləri açın, paranormal varlıqlardan qaçın və bu kabusdan oyanmağın bir yolunu tapın.', modal_desc_parkour: 'Mümkün olmayan parkurları tamamlamağa çalışın və liderlər cədvəlində zirvəyə qalxın!', update_countdown: 'Böyük Yeniləməyə Qalan Vaxt:'}
     };
     
     // --- DİL SİSTEMİ ---
@@ -326,18 +331,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const changeLanguage = (lang) => { if (!translations[lang]) lang = 'tr'; document.querySelectorAll('[data-translate-key]').forEach(el => { const key = el.dataset.translateKey; if(translations[lang][key]) {el.textContent = translations[lang][key];}}); localStorage.setItem('gg_games_lang', lang); langOptions.forEach(opt => { opt.classList.toggle('active-lang', opt.dataset.lang === lang);}); initDailySeries(); };
     langOptions.forEach(option => { option.addEventListener('click', (e) => { e.preventDefault(); changeLanguage(e.target.dataset.lang); document.getElementById('settings-dropdown-menu').classList.remove('show'); }); });
 
-    // --- SES KONTROLLERİ ---
+    // --- SES KONTROLLERİ (DÜZELTİLMİŞ) ---
     const muteBtn = document.getElementById('mute-btn');
     const soundOnIcon = document.getElementById('sound-on-icon');
     const soundOffIcon = document.getElementById('sound-off-icon');
-    const updateMuteButton = (isMuted) => { soundOnIcon.style.display = isMuted ? 'none' : 'block'; soundOffIcon.style.display = isMuted ? 'block' : 'none'; };
-    muteBtn.addEventListener('click', (e) => { e.preventDefault(); bgMusic.muted = !bgMusic.muted; localStorage.setItem('gg_games_music_muted', bgMusic.muted); updateMuteButton(bgMusic.muted); });
-    const savedMuteState = localStorage.getItem('gg_games_music_muted') === 'true';
-    bgMusic.muted = savedMuteState;
-    updateMuteButton(savedMuteState);
-    document.body.addEventListener('click', () => { if (!isMusicStarted) { bgMusic.play().catch(e => console.log("Müzik çalınamadı: ", e)); isMusicStarted = true; } }, { once: true });
-    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('click', () => { if(!el.classList.contains('disabled')) { clickSound.currentTime = 0; clickSound.play(); }}); });
 
+    const updateMuteState = () => {
+        isMuted = !isMuted;
+        bgMusic.muted = isMuted;
+        localStorage.setItem('gg_games_music_muted', isMuted);
+        updateMuteButtonVisuals();
+    };
+
+    const updateMuteButtonVisuals = () => {
+        soundOnIcon.style.display = isMuted ? 'none' : 'block';
+        soundOffIcon.style.display = isMuted ? 'block' : 'none';
+    };
+    
+    // Tarayıcıların sesleri otomatik oynatmasını engellemesini aşmak için,
+    // kullanıcı sayfayla etkileşime girdiğinde (tıkladığında) sesleri başlatırız.
+    const initializeAudio = () => {
+        if (isAudioInitialized) return;
+        bgMusic.muted = isMuted;
+        bgMusic.play().catch(e => console.log("Otomatik müzik çalınamadı. Kullanıcı etkileşimi bekleniyor.", e));
+        isAudioInitialized = true;
+    };
+
+    document.body.addEventListener('click', initializeAudio);
+    muteBtn.addEventListener('click', (e) => { e.preventDefault(); updateMuteState(); });
+    document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('click', () => {
+            // Sadece sessiz değilse ve buton devre dışı değilse tıklama sesi çal
+            if(!isMuted && !el.classList.contains('disabled')) {
+                clickSound.currentTime = 0;
+                clickSound.play();
+            }
+        });
+    });
+    
     // --- ARKA PLAN PARÇACIKLARI ---
     const particleContainer = document.getElementById('background-particles');
     if(particleContainer) { for (let i = 0; i < 30; i++) { const p = document.createElement('div'); p.className = 'particle'; const size = Math.random() * 3 + 1; p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:0;animation:particle-float ${Math.random()*10+5}s linear infinite;animation-delay:${Math.random()*5}s`; particleContainer.appendChild(p); } }
@@ -348,28 +379,31 @@ document.addEventListener('DOMContentLoaded', function() {
     navItems.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); navItems.forEach(n => n.classList.remove('active')); contentSections.forEach(s => s.classList.remove('active')); item.classList.add('active'); const target = document.getElementById(item.getAttribute('data-target')); if(target) target.classList.add('active'); }); });
     
     // Modal Yönetimi
-    const modal = document.getElementById('description-modal');
-    const openBtn = document.getElementById('open-modal-btn');
-    const closeBtn = document.getElementById('close-modal-btn');
-    const horrorModal = document.getElementById('horror-modal');
-    const openHorrorBtn = document.getElementById('open-horror-modal-btn');
-    const closeHorrorBtn = document.getElementById('close-horror-modal-btn');
+    const allModals = document.querySelectorAll('.modal');
+    const setupModal = (modalId, openBtnId) => {
+        const modal = document.getElementById(modalId);
+        const openBtn = document.getElementById(openBtnId);
+        const closeBtn = modal.querySelector('.close-btn');
 
-    const closeModal = () => {
-        if(modal) modal.classList.remove('visible');
-        if(horrorModal) horrorModal.classList.remove('visible');
+        if(openBtn) openBtn.onclick = () => modal.classList.add('visible');
+        if(closeBtn) closeBtn.onclick = () => modal.classList.remove('visible');
     };
-    if(openBtn) openBtn.onclick = () => { if(modal) modal.classList.add('visible'); };
-    if(closeBtn) closeBtn.onclick = closeModal;
-    if(openHorrorBtn) openHorrorBtn.onclick = () => { if(horrorModal) horrorModal.classList.add('visible'); };
-    if(closeHorrorBtn) closeHorrorBtn.onclick = closeModal;
+
+    setupModal('description-modal', 'open-modal-btn');
+    setupModal('horror-modal', 'open-horror-modal-btn');
+    setupModal('parkour-modal', 'open-parkour-modal-btn');
 
     const settingsBtn = document.getElementById('settings-btn-toggle');
     const dropdownMenu = document.getElementById('settings-dropdown-menu');
     settingsBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdownMenu.classList.toggle('show'); });
     window.onclick = (e) => { 
         if (!e.target.closest('.settings-dropdown') && !e.target.closest('.settings-btn')) { dropdownMenu.classList.remove('show'); } 
-        if (e.target == modal || e.target == horrorModal) closeModal(); 
+        // Herhangi bir modalın dışına tıklandığında kapat
+        allModals.forEach(modal => {
+             if (e.target == modal) {
+                modal.classList.remove('visible');
+            }
+        });
     };
 
     // --- GERİ SAYIM SİSTEMLERİ ---
@@ -396,6 +430,29 @@ document.addEventListener('DOMContentLoaded', function() {
             element.textContent = `${hours}:${minutes}:${seconds}`;
         }, 1000);
     };
+
+    // Belirli bir tarihe geri sayım yapan yeni fonksiyon
+    const startFixedDateCountdown = (elementId, targetDateString) => {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        const targetDate = new Date(targetDateString).getTime();
+        const interval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(interval);
+                element.textContent = "GÜNCELLEME GELDİ!"; // Veya çeviri anahtarı
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            element.textContent = `${days}g ${hours}s ${minutes}d ${seconds}sn`;
+        }, 1000);
+    };
+
 
     // --- GÜNLÜK SERİ SİSTEMİ ---
     const dailyTracker = document.getElementById('daily-series-tracker');
@@ -451,11 +508,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const currentLang = localStorage.getItem('gg_games_lang') || 'tr';
             const confirmText = (translations[currentLang] && translations[currentLang].reset_confirm) ? translations[currentLang].reset_confirm : 'Are you sure?';
             if (confirm(confirmText)) {
-                localStorage.removeItem('gg_games_lang');
-                localStorage.removeItem('gg_games_music_muted');
-                localStorage.removeItem('gg_luck_event_end');
-                localStorage.removeItem('gg_merchant_end');
-                localStorage.removeItem('gg_daily_streak');
+                localStorage.clear(); // Tüm site verilerini temizler
                 location.reload();
             }
         });
@@ -463,9 +516,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- BAŞLANGIÇ FONKSİYONLARI ---
     const savedLang = localStorage.getItem('gg_games_lang') || 'tr';
-    changeLanguage(savedLang);
+    changeLanguage(savedLang); // Dili yükle
+    updateMuteButtonVisuals(); // Ses düğmesi ikonunu ayarla
     startCountdown('luck-event-timer', 'gg_luck_event_end', 3600); // 1 saat
     startCountdown('merchant-timer', 'gg_merchant_end', 1800); // 30 dakika
+    startFixedDateCountdown('parkour-update-timer', '2025-08-17T00:00:00'); // Parkour geri sayımını başlat
 });
 </script>
 
